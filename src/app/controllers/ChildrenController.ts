@@ -21,7 +21,9 @@ class ChildrenController {
 			fatherName,
 			home,
 			phone,
-			motherId
+			motherId,
+			birthday,
+			birthtime
 		} = request.body;
 
 		const register = await this.usersRepository.findById(request.userId);
@@ -36,7 +38,9 @@ class ChildrenController {
 			home,
 			phone,
 			mother,
-			register
+			register,
+			birthday,
+			birthtime
 		});
 
 		return response.status(201).send();

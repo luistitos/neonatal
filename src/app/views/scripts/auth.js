@@ -23,6 +23,10 @@ const App = {
 			GlobalStorage.clearUserData();
 			location.assign('http://localhost:3333/sessions');
 		}
+	},
+	logout() {
+		GlobalStorage.clearUserData();
+		location.assign('http://localhost:3333/sessions');
 	}
 };
 

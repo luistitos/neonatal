@@ -107,7 +107,7 @@
 							<strong> <%= child.name %> </strong>
 							<small> <%= child.home %> </small>
 						</div>
-						<p><%= `${child.hospitalName} • ${child.hospitalNumber}` %></p>
+						<p><%= `${child.parsedBirthday} • ${child.birthtime}` %></p>
 					</a>
 				</li>
 				<% }); %>
@@ -139,6 +139,33 @@
 									<option value="Feminino">Feminino</option>
 								</select>
 							</div>
+						</fieldset>
+
+						<fieldset>
+							<legend>Nascimento</legend>
+
+							<section>
+							<div class="input-group">
+								<label for="birthday" class="sr-only">Data de nascimento</label>
+								<input
+									type="date"
+									id="birthday"
+									name="birthday"
+									placeholder="Data de nascimento"
+								/>
+							</div>
+
+							<div class="input-group">
+								<label for="birthtime" class="sr-only">Hora de nascimento</label>
+								<input
+									type="time"
+									id="birthtime"
+									name="birthtime"
+									placeholder="Hora de nascimento"
+								/>
+							</div>
+						</section>
+
 						</fieldset>
 
 						<fieldset>

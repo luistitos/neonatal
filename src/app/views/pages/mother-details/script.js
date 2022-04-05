@@ -39,6 +39,8 @@ const Form = {
 	hospitalNumber: document.querySelector('input#hospitalNumber'),
 	home: document.querySelector('input#home'),
 	phone: document.querySelector('input#phone'),
+	birthday: document.querySelector('input#birthday'),
+	birthtime: document.querySelector('input#birthtime'),
 
 	getValues() {
 		return {
@@ -48,7 +50,9 @@ const Form = {
 			hospitalName: Form.hospitalName.value,
 			hospitalNumber: Form.hospitalNumber.value,
 			home: Form.home.value,
-			phone: Form.phone.value
+			phone: Form.phone.value,
+			birthday: Form.birthday.value,
+			birthtime: Form.birthtime.value
 		};
 	},
 
@@ -60,6 +64,8 @@ const Form = {
 		Form.hospitalNumber.value = '';
 		Form.home.value = '';
 		Form.phone.value = '';
+		Form.birthday.value = '';
+		Form.birthtime.value = '';
 	},
 
 	submit(event) {

@@ -13,6 +13,8 @@ interface IChildrenDTO {
 	phone: number;
 	mother: Mother;
 	register: User;
+	birthday: Date;
+	birthtime: string;
 }
 
 class ChildrenRepository {
@@ -31,7 +33,9 @@ class ChildrenRepository {
 		home,
 		phone,
 		mother,
-		register
+		register,
+		birthday,
+		birthtime
 	}: IChildrenDTO): Promise<void> {
 		const child = this.repository.create({
 			name,
@@ -42,7 +46,9 @@ class ChildrenRepository {
 			home,
 			phone,
 			mother,
-			register
+			register,
+			birthday,
+			birthtime
 		});
 
 		await this.repository.save(child);

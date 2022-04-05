@@ -15,7 +15,7 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 					},
 					{
 						name: 'fingerprint_id',
-						type: 'varchar',
+						type: 'varchar'
 					},
 
 					{
@@ -24,11 +24,13 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 					},
 					{
 						name: 'birthday',
-						type: 'date'
+						type: 'date',
+						default: 'now()'
 					},
 					{
 						name: 'birthtime',
-						type: 'time'
+						type: 'time',
+						default: 'now()'
 					},
 					{
 						name: 'hospital_name',
