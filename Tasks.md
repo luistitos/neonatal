@@ -11,5 +11,5 @@
 [-] Form para registar filho na sua pagina
 [x] NUmero de filhos e maes na home
 [x] Tratar erros
-[] Fazer um readme
-[] migration para criar user
+[x] Fazer um readme
+[] seed para criar user

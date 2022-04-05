@@ -1,4 +1,5 @@
 import {
+	AfterLoad,
 	Column,
 	CreateDateColumn,
 	Entity,
@@ -15,8 +16,19 @@ class Children {
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@Column({ name: 'fingerprint_id' })
+	fingerprintId: string;
+
 	@Column()
 	name: string;
+
+	@Column()
+	birthday: Date;
+
+	parsedBirthday: string;
+
+	@Column()
+	birthtime: string;
 
 	@Column({ name: 'hospital_name' })
 	hospitalName: string;
@@ -55,6 +67,15 @@ class Children {
 
 	@UpdateDateColumn()
 	updated_at: Date;
+
+	@AfterLoad()
+	parseDate() {
+		this.parsedBirthday = this.birthday.toLocaleString('pt-mz', {
+			day: '2-digit',
+			month: 'long',
+			year: 'numeric'
+		});
+	}
 }
 
 export { Children };

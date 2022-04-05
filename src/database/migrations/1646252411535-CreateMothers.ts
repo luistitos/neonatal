@@ -20,6 +20,10 @@ export class CreateMothers1646252411535 implements MigrationInterface {
 					},
 
 					{
+						name: 'fingerprint_id',
+						type: 'varchar',
+					},
+					{
 						name: 'bi',
 						type: 'varchar',
 						isUnique: true

@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
+import bcrypt from 'bcrypt';
 import User from '../../app/models/User';
 
 export class CreateAdminUser1647547257211 implements MigrationInterface {
@@ -10,7 +11,7 @@ export class CreateAdminUser1647547257211 implements MigrationInterface {
 			.values({
 				name: 'Admin',
 				email: 'admin@neonatal.com',
-				password: '123456'
+				password: await bcrypt.hash('123456', 8)
 			})
 			.execute();
 	}

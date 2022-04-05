@@ -18,6 +18,9 @@ class Mother {
 	@PrimaryGeneratedColumn()
 	id: number;
 
+	@Column({ name: 'fingerprint_id' })
+	fingerprintId: string;
+
 	@Column()
 	bi: string;
 

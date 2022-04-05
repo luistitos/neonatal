@@ -14,8 +14,21 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 						generationStrategy: 'increment'
 					},
 					{
+						name: 'fingerprint_id',
+						type: 'varchar',
+					},
+
+					{
 						name: 'name',
 						type: 'varchar'
+					},
+					{
+						name: 'birthday',
+						type: 'date'
+					},
+					{
+						name: 'birthtime',
+						type: 'time'
 					},
 					{
 						name: 'hospital_name',

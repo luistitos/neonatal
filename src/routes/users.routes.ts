@@ -4,9 +4,8 @@ import authMiddleware from '../middlewares/auth';
 
 const routes = Router();
 
-routes.use(authMiddleware);
 routes.post('/', async (request, response) => {
 	await userController().create(request, response);
 });
-
+routes.use(authMiddleware);
 export { routes as usersRoutes };
