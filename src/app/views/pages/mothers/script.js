@@ -94,7 +94,6 @@ const Form = {
 		try {
 			const data = Form.getValues();
 			const { token } = MotherStorage.getUserData();
-			console.log(JSON.stringify(data));
 
 			Request.postData(data, '/mothers', token)
 				.then(() => {
@@ -110,6 +109,12 @@ const Form = {
 		} catch (error) {
 			alert(error.message);
 		}
+	},
+
+	createFinger() {
+		Request.postData({ type: 'mother' }, '/fingers', '')
+			.then((response) => response.json())
+			.then((data) => console.log(data));
 	}
 };
 

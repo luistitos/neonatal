@@ -1,5 +1,6 @@
 import { getRepository, Like, Repository } from 'typeorm';
 import { Children } from '../models/Children';
+import { Fingerprint } from '../models/Fingerprint';
 import { Mother } from '../models/Mother';
 import User from '../models/User';
 
@@ -22,6 +23,7 @@ interface IMotherDTO {
 	referenceRelation: string;
 	referencePhone: number;
 	register: number;
+	finger: number;
 }
 
 class MothersRepository {
@@ -49,10 +51,14 @@ class MothersRepository {
 		referencePerson,
 		referenceRelation,
 		referencePhone,
-		register
+		register,
+		finger
 	}: IMotherDTO) {
 		const user = new User();
 		user.id = register;
+
+		const thisFinger = new Fingerprint();
+		thisFinger.id = finger;
 
 		const newMother = this.repository.create({
 			bi,
@@ -72,7 +78,8 @@ class MothersRepository {
 			referencePerson,
 			referenceRelation,
 			referencePhone,
-			register: user
+			register: user,
+			fingerId: thisFinger
 		});
 
 		await this.repository.save(newMother);

@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateChildren1646339277067 implements MigrationInterface {
+export class CreateChildren1655553322716 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.createTable(
 			new Table({
@@ -64,6 +64,10 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 						name: 'register_id',
 						type: 'int'
 					},
+					{
+						name: 'finger_id',
+						type: 'int'
+					},
 
 					{
 						name: 'created_at',
@@ -93,6 +97,14 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 						columnNames: ['mother_id'],
 						onDelete: 'CASCADE',
 						onUpdate: 'CASCADE'
+					},
+					{
+						name: 'FKChildrenFingers',
+						referencedTableName: 'fingerprints',
+						referencedColumnNames: ['id'],
+						columnNames: ['finger_id'],
+						onDelete: 'CASCADE',
+						onUpdate: 'CASCADE'
 					}
 				]
 			})
@@ -100,6 +112,6 @@ export class CreateChildren1646339277067 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.dropTable('children');
+		await queryRunner.dropTable('fingerprints');
 	}
 }

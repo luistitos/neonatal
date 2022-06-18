@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import bcrypt from 'bcrypt';
 import User from '../../app/models/User';
 
-export class CreateAdminUser1647547257211 implements MigrationInterface {
+export class CreateAdminUser1655553349676 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.manager
 			.createQueryBuilder()

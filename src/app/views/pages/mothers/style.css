@@ -27,7 +27,6 @@ main header {
 	background: var(--color-dark-green);
 }
 
-
 main ul {
 	list-style: none;
 	margin-top: 3.2rem;
@@ -142,6 +141,10 @@ fieldset section {
 .input-group.actions button,
 .input-group.actions .button {
 	width: 48%;
+}
+
+fieldset section > button {
+	width: 80%;
 }
 
 button {

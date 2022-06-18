@@ -5,7 +5,7 @@ import {
 	TableForeignKey
 } from 'typeorm';
 
-export class CreateMothers1646252411535 implements MigrationInterface {
+export class CreateMothers1655553305254 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.createTable(
 			new Table({
@@ -21,7 +21,7 @@ export class CreateMothers1646252411535 implements MigrationInterface {
 
 					{
 						name: 'fingerprint_id',
-						type: 'varchar',
+						type: 'varchar'
 					},
 					{
 						name: 'bi',
@@ -124,6 +124,10 @@ export class CreateMothers1646252411535 implements MigrationInterface {
 						name: 'register_id',
 						type: 'int'
 					},
+					{
+						name: 'finger_id',
+						type: 'int'
+					},
 
 					{
 						name: 'created_at',
@@ -143,6 +147,14 @@ export class CreateMothers1646252411535 implements MigrationInterface {
 						referencedTableName: 'users',
 						referencedColumnNames: ['id'],
 						columnNames: ['register_id'],
+						onDelete: 'CASCADE',
+						onUpdate: 'CASCADE'
+					},
+					{
+						name: 'FKMothersFingers',
+						referencedTableName: 'fingerprints',
+						referencedColumnNames: ['id'],
+						columnNames: ['finger_id'],
 						onDelete: 'CASCADE',
 						onUpdate: 'CASCADE'
 					}

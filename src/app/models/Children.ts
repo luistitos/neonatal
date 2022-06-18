@@ -5,9 +5,11 @@ import {
 	Entity,
 	JoinColumn,
 	ManyToOne,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn
 } from 'typeorm';
+import { Fingerprint } from './Fingerprint';
 import { Mother } from './Mother';
 import User from './User';
 
@@ -47,6 +49,13 @@ class Children {
 
 	@Column()
 	phone: number;
+
+	@OneToOne(() => Fingerprint)
+	@JoinColumn({
+		name: 'finger_id',
+		referencedColumnName: 'id'
+	})
+	fingerId: number;
 
 	@ManyToOne(() => Mother)
 	@JoinColumn({
