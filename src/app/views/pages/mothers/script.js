@@ -45,7 +45,9 @@ const Form = {
 	referenceRelation: document.querySelector('input#referenceRelation'),
 	referencePhone: document.querySelector('input#referencePhone'),
 	referencePlace: document.querySelector('input#referencePlace'),
-	
+	fingerId: null,
+	fingerCreated: false,
+	fingerSaved: false,
 
 	getValues() {
 		return {
@@ -65,7 +67,8 @@ const Form = {
 			referencePerson: Form.referencePerson.value,
 			referenceRelation: Form.referenceRelation.value,
 			referencePhone: Form.referencePhone.value,
-			referencePlace: Form.referencePlace.value
+			referencePlace: Form.referencePlace.value,
+			fingerId: this.fingerId
 		};
 	},
 
@@ -91,6 +94,10 @@ const Form = {
 
 	submit(event) {
 		event.preventDefault();
+		if (!this.fingerCreated || !this.fingerSaved) {
+			alert('Insira a impressao digital!!');
+			return 0;
+		}
 
 		try {
 			const data = Form.getValues();
@@ -112,10 +119,40 @@ const Form = {
 		}
 	},
 
+	setFingerCreated() {
+		this.fingerCreated = true;
+		// Alterar o icon
+		//Verificar de tempo em tempo se esta salvo na placa
+		this.verifyFingerSaved();
+	},
+
+	setFingerSaved() {
+		this.fingerSaved = true;
+		//alterar icon
+	},
+
+	verifyFingerSaved() {
+		const response = Request.getData(`/fingers/${this.fingerId}`)
+			.then((response) => response.json())
+			.then(({ id, saved }) => {
+				console.log(id, saved);
+				if (!saved) {
+					setTimeout(() => {
+						this.verifyFingerSaved();
+					}, 3000);
+				} else {
+					this.setFingerSaved();
+				}
+			});
+	},
+
 	createFinger() {
 		Request.postData({}, '/fingers/mother', '')
 			.then((response) => response.json())
-			.then((data) => console.log(data));
+			.then(({ id }) => {
+				this.fingerId = id;
+				this.setFingerCreated();
+			});
 	}
 };
 
@@ -129,6 +166,20 @@ const Request = {
 			},
 			body: JSON.stringify(data),
 			method: 'POST'
+		};
+
+		const response = await fetch(url, params);
+		return response;
+	},
+
+	async getData(route) {
+		const url = `http://localhost:3333${route}`;
+		const params = {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			method: 'GET',
+			redirect: 'follow'
 		};
 
 		const response = await fetch(url, params);
