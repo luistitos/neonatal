@@ -122,6 +122,8 @@ const Form = {
 	setFingerCreated() {
 		this.fingerCreated = true;
 		// Alterar o icon
+		const element = document.getElementById('finger-icon');
+		element.innerText = 'sync_problem';
 		//Verificar de tempo em tempo se esta salvo na placa
 		this.verifyFingerSaved();
 	},
@@ -129,13 +131,14 @@ const Form = {
 	setFingerSaved() {
 		this.fingerSaved = true;
 		//alterar icon
+		const element = document.getElementById('finger-icon');
+		element.innerText = 'check_circle';
 	},
 
 	verifyFingerSaved() {
 		const response = Request.getData(`/fingers/${this.fingerId}`)
 			.then((response) => response.json())
 			.then(({ id, saved }) => {
-				console.log(id, saved);
 				if (!saved) {
 					setTimeout(() => {
 						this.verifyFingerSaved();
