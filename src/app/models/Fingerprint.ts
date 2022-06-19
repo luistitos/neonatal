@@ -2,17 +2,14 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
-	PrimaryGeneratedColumn,
+	PrimaryColumn,
 	UpdateDateColumn
 } from 'typeorm';
 
 @Entity('fingerprints')
 class Fingerprint {
-	@PrimaryGeneratedColumn()
+	@PrimaryColumn()
 	id: number;
-
-	@Column({ name: 'finger_id' })
-	fingerId: number;
 
 	@Column()
 	type: string;

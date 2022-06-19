@@ -10,13 +10,6 @@ export class CreateFingerprint1655553290934 implements MigrationInterface {
 						name: 'id',
 						type: 'int',
 						isPrimary: true,
-						isGenerated: true,
-						generationStrategy: 'increment'
-					},
-					{
-						name: 'finger_id',
-						type: 'int',
-						isNullable: false,
 						isUnique: true
 					},
 					{

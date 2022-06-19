@@ -9,26 +9,25 @@ class FingerController {
 	}
 
 	async create(request: Request, response: Response) {
-		const { type } = request.body;
-		console.log(type);
+		const { type } = request.params;
 		const count = await this.fingerRepository.count();
-		const fingerId = count + 1;
+		const id = count + 1;
 
-		await this.fingerRepository.create({ fingerId, type });
-		return response.json(fingerId);
+		await this.fingerRepository.create({ id, type });
+		return response.json({ id });
 	}
 
 	async saveLast(request: Request, response: Response) {
-		const { id, fingerId, saved } = await this.fingerRepository.getLast();
+		const { id, saved } = await this.fingerRepository.getLast();
 
 		await this.fingerRepository.setSaved(id);
-		return response.json(fingerId);
+		return response.json(id);
 	}
 
 	async showFinger(request: Request, response: Response) {
-		const { fingerId } = request.params;
+		const { id } = request.params;
 
-		const finger = await this.fingerRepository.getByFingerId(Number(fingerId));
+		const finger = await this.fingerRepository.getById(Number(id));
 		return response.json(finger);
 	}
 }

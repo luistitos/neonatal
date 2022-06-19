@@ -45,6 +45,7 @@ const Form = {
 	referenceRelation: document.querySelector('input#referenceRelation'),
 	referencePhone: document.querySelector('input#referencePhone'),
 	referencePlace: document.querySelector('input#referencePlace'),
+	
 
 	getValues() {
 		return {
@@ -112,7 +113,7 @@ const Form = {
 	},
 
 	createFinger() {
-		Request.postData({ type: 'mother' }, '/fingers', '')
+		Request.postData({}, '/fingers/mother', '')
 			.then((response) => response.json())
 			.then((data) => console.log(data));
 	}
@@ -123,7 +124,7 @@ const Request = {
 		const url = `http://localhost:3333${route}`;
 		const params = {
 			headers: {
-				'Content-Type': 'Motherapplication/json',
+				'Content-Type': 'application/json',
 				Authorization: `Bearer ${token}`
 			},
 			body: JSON.stringify(data),
