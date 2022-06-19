@@ -80,7 +80,7 @@ class Mother {
 		name: 'finger_id',
 		referencedColumnName: 'id'
 	})
-	fingerId: Fingerprint;
+	finger: Fingerprint;
 
 	@ManyToOne(() => User)
 	@JoinColumn({

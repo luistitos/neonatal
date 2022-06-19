@@ -23,7 +23,7 @@ interface IMotherDTO {
 	referenceRelation: string;
 	referencePhone: number;
 	register: number;
-	finger: number;
+	fingerId: number;
 }
 
 class MothersRepository {
@@ -52,13 +52,13 @@ class MothersRepository {
 		referenceRelation,
 		referencePhone,
 		register,
-		finger
+		fingerId
 	}: IMotherDTO) {
 		const user = new User();
 		user.id = register;
 
-		const thisFinger = new Fingerprint();
-		thisFinger.id = finger;
+		const finger = new Fingerprint();
+		finger.id = fingerId;
 
 		const newMother = this.repository.create({
 			bi,
@@ -79,7 +79,7 @@ class MothersRepository {
 			referenceRelation,
 			referencePhone,
 			register: user,
-			fingerId: thisFinger
+			finger
 		});
 
 		await this.repository.save(newMother);

@@ -28,7 +28,7 @@ class MotherController {
 			referencePerson,
 			referenceRelation,
 			referencePhone,
-			finger
+			fingerId
 		} = request.body;
 		const register = request.userId;
 
@@ -64,7 +64,7 @@ class MotherController {
 			referencePerson,
 			referenceRelation,
 			referencePhone,
-			finger
+			fingerId
 		});
 
 		return response.status(201).send();
