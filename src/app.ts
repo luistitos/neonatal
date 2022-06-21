@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { resolve } from 'path';
 import { AppError } from './app/errors/AppError';
 import 'express-async-errors';
+import cors from 'cors';
 
 import './database';
 import routes from './routes';
@@ -11,6 +12,7 @@ app.use('/views', express.static(resolve(__dirname, 'app', 'views')));
 app.set('view engine', 'ejs');
 app.set('views', resolve(__dirname, 'app', 'views'));
 
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 

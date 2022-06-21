@@ -55,7 +55,7 @@ class Children {
 		name: 'finger_id',
 		referencedColumnName: 'id'
 	})
-	fingerId: number;
+	finger: Fingerprint;
 
 	@ManyToOne(() => Mother)
 	@JoinColumn({

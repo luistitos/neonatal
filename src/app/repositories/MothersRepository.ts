@@ -91,6 +91,14 @@ class MothersRepository {
 		return mother;
 	}
 
+	async findByFinger(fingerId: number): Promise<Mother> {
+		const finger = new Fingerprint();
+		finger.id = fingerId;
+		const mother = await this.repository.findOne({ finger });
+
+		return mother;
+	}
+
 	async findById(id: number): Promise<Mother> {
 		const mother = await this.repository.findOne(id, {
 			relations: ['children']
