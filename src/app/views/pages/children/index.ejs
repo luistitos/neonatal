@@ -51,7 +51,6 @@
         <section id="form">
           <h2>Nova criança</h2>
           <form action="" onsubmit="Form.submit(event)">
-
 						<fieldset>
 							<legend>Informação básica</legend>
 
@@ -72,41 +71,46 @@
 									<option value="Feminino">Feminino</option>
 								</select>
 							</div>
+						</fieldset>
+
+						<fieldset>
+							<legend>Nascimento</legend>
+
+							<section>
+							<div class="input-group">
+								<label for="birthday" class="sr-only">Data de nascimento</label>
+								<input
+									type="date"
+									id="birthday"
+									name="birthday"
+									placeholder="Data de nascimento"
+								/>
+							</div>
+
+							<div class="input-group">
+								<label for="birthtime" class="sr-only">Hora de nascimento</label>
+								<input
+									type="time"
+									id="birthtime"
+									name="birthtime"
+									placeholder="Hora de nascimento"
+								/>
+							</div>
+						</section>
 
 						</fieldset>
 
 						<fieldset>
 							<legend>Filiação</legend>
-
-							<section>
-								<div class="input-group">
-									<label for="father-name" class="sr-only">Nome do pai</label>
-									<input
-										type="text"
-										id="father-name"
-										name="father-name"
-										placeholder="Nome do pai"
-									/>
-								</div>
-
-								<div class="input-group">
-									<label for="mother" class="sr-only">Nome da mãe</label>
-									<input
-										type="text"
-										id="mother"
-										name="mother"
-										placeholder="Nome da mãe"
-										list="mothers-list"
-										onchange="Form.setMothersList(value)"
-									/>
-									<datalist id="mothers-list">
-										<option value="Joana">Joa</option>
-										<option value="Joana">Jo</option>
-										<option value="Joana">Ja</option>
-									</datalist>
-								</div>
-							</section>
-
+							<div class="input-group">
+								<label for="father-name" class="sr-only">Nome do pai</label>
+								<input
+									type="text"
+									id="father-name"
+									name="father-name"
+									placeholder="Nome do pai"
+								/>
+							</div>
 						</fieldset>
 
 						<fieldset>
@@ -114,7 +118,9 @@
 
 							<section>
 								<div class="input-group">
-									<label for="hospitalName" class="sr-only">Nome do hospital</label>
+									<label for="hospitalName" class="sr-only"
+										>Nome do hospital</label
+									>
 									<input
 										type="text"
 										id="hospitalName"
@@ -124,7 +130,9 @@
 								</div>
 
 								<div class="input-group">
-									<label for="hospitalNumber" class="sr-only">Numero do hospital</label>
+									<label for="hospitalNumber" class="sr-only"
+										>Numero do hospital</label
+									>
 									<input
 										type="text"
 										id="hospitalNumber"
@@ -133,7 +141,6 @@
 									/>
 								</div>
 							</section>
-
 						</fieldset>
 
 						<fieldset>
@@ -158,17 +165,40 @@
 									placeholder="Numero de telefone"
 								/>
 							</div>
+						</fieldset>
+
+						<fieldset class="finger-button">
+							<section>
+								<button type="button" onclick="Form.createMotherFinger()">
+									Buscar Fingerprint da mãe
+								</button>
+
+								<span class="material-symbols-outlined" id="mother-finger-icon">
+									cancel
+								</span>
+
+							</section> <br/>
+
+							<section>
+								<button type="button" onclick="Form.createFinger()">
+									Guardar Fingerprint do Bebê
+								</button>
+
+								<span class="material-symbols-outlined" id="finger-icon">
+									cancel
+								</span>
+
+							</section>
 
 						</fieldset>
 
-
-            <div class="input-group actions">
-              <button type="button" class="cancel" onclick="Modal.close()">
-                Cancelar
-              </button>
-              <button type="submit">Salvar</button>
-            </div>
-          </form>
+						<div class="input-group actions">
+							<button type="button" class="cancel" onclick="Modal.close()">
+								Cancelar
+							</button>
+							<button type="submit">Salvar</button>
+						</div>
+					</form>
         </section>
       </div>
     </div>

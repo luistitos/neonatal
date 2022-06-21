@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { ChildrenRepository } from '../repositories/ChildrenRepository';
+import { FingerRepository } from '../repositories/FingerRepository';
 import { MothersRepository } from '../repositories/MothersRepository';
 import { UsersRepository } from '../repositories/UsersRepository';
 
@@ -7,10 +8,13 @@ class ChildrenController {
 	usersRepository: UsersRepository;
 	mothersRepository: MothersRepository;
 	childrenRepository: ChildrenRepository;
+	private fingerRepository: FingerRepository;
+
 	constructor() {
 		this.usersRepository = new UsersRepository();
 		this.mothersRepository = new MothersRepository();
 		this.childrenRepository = new ChildrenRepository();
+		this.fingerRepository = new FingerRepository();
 	}
 	async create(request: Request, response: Response): Promise<Response> {
 		const {
@@ -23,11 +27,13 @@ class ChildrenController {
 			phone,
 			motherId,
 			birthday,
-			birthtime
+			birthtime,
+			fingerId
 		} = request.body;
 
 		const register = await this.usersRepository.findById(request.userId);
 		const mother = await this.mothersRepository.findById(motherId);
+		const finger = await this.fingerRepository.getById(fingerId);
 
 		await this.childrenRepository.create({
 			name,
@@ -40,7 +46,8 @@ class ChildrenController {
 			mother,
 			register,
 			birthday,
-			birthtime
+			birthtime,
+			finger
 		});
 
 		return response.status(201).send();

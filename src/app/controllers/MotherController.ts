@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
 import { AppError } from '../errors/AppError';
+import { FingerRepository } from '../repositories/FingerRepository';
 import { MothersRepository } from '../repositories/MothersRepository';
 
 class MotherController {
 	private mothersRepository: MothersRepository;
+	private fingerRepository: FingerRepository;
 
 	constructor() {
 		this.mothersRepository = new MothersRepository();
+		this.fingerRepository = new FingerRepository();
 	}
 
 	async create(request: Request, response: Response): Promise<Response> {
@@ -45,6 +48,8 @@ class MotherController {
 			throw new AppError('Mother already exists!');
 		}
 
+		const finger = await this.fingerRepository.getById(fingerId);
+
 		await this.mothersRepository.create({
 			register,
 			bi,
@@ -64,7 +69,7 @@ class MotherController {
 			referencePerson,
 			referenceRelation,
 			referencePhone,
-			fingerId
+			finger
 		});
 
 		return response.status(201).send();
@@ -86,6 +91,15 @@ class MotherController {
 			mother,
 			title: 'Detalhes da mãe'
 		});
+	}
+
+	async showByFingerId(
+		request: Request,
+		response: Response
+	): Promise<Response> {
+		const { id } = request.params;
+		const mother = await this.mothersRepository.findByFinger(Number(id));
+		return response.json(mother);
 	}
 }
 

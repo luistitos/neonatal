@@ -117,7 +117,7 @@
 		<div class="modal-overlay">
 			<div class="modal">
 				<section id="form">
-					<h2>Nova criança</h2>
+					<h2>Cadastrar criança</h2>
 					<form action="" onsubmit="Form.submit(event)">
 						<fieldset>
 							<legend>Informação básica</legend>
@@ -233,6 +233,20 @@
 									placeholder="Numero de telefone"
 								/>
 							</div>
+						</fieldset>
+
+						<fieldset class="finger-button">
+							<section>
+								<button type="button" onclick="Form.createFinger()">
+									Guardar Fingerprint
+								</button>
+
+								<span class="material-symbols-outlined" id="finger-icon">
+									cancel
+								</span>
+
+							</section>
+
 						</fieldset>
 
 						<div class="input-group actions">

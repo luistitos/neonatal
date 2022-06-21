@@ -13,6 +13,10 @@ routes.get('/:id', async (request, response) => {
 	await motherController().showById(request, response);
 });
 
+routes.get('/fingers/:id', async (request, response) => {
+	return await motherController().showByFingerId(request, response);
+});
+
 routes.use(authMiddleware);
 routes.post('/', async (request, response) => {
 	await motherController().create(request, response);

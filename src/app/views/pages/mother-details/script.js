@@ -41,6 +41,9 @@ const Form = {
 	phone: document.querySelector('input#phone'),
 	birthday: document.querySelector('input#birthday'),
 	birthtime: document.querySelector('input#birthtime'),
+	fingerId: null,
+	fingerCreated: false,
+	fingerSaved: false,
 
 	getValues() {
 		return {
@@ -52,7 +55,8 @@ const Form = {
 			home: Form.home.value,
 			phone: Form.phone.value,
 			birthday: Form.birthday.value,
-			birthtime: Form.birthtime.value
+			birthtime: Form.birthtime.value,
+			fingerId: this.fingerId
 		};
 	},
 
@@ -68,8 +72,52 @@ const Form = {
 		Form.birthtime.value = '';
 	},
 
+	setFingerCreated() {
+		this.fingerCreated = true;
+		// Alterar o icon
+		const element = document.getElementById('finger-icon');
+		element.innerText = 'sync_problem';
+		//Verificar de tempo em tempo se esta salvo na placa
+		this.verifyFingerSaved();
+	},
+
+	setFingerSaved() {
+		this.fingerSaved = true;
+		//alterar icon
+		const element = document.getElementById('finger-icon');
+		element.innerText = 'check_circle';
+	},
+
+	verifyFingerSaved() {
+		const response = Request.getData(`/fingers/${this.fingerId}`)
+			.then((response) => response.json())
+			.then(({ id, saved }) => {
+				if (!saved) {
+					setTimeout(() => {
+						this.verifyFingerSaved();
+					}, 3000);
+				} else {
+					this.setFingerSaved();
+				}
+			});
+	},
+
+	createFinger() {
+		Request.postData({}, '/fingers/child', '')
+			.then((response) => response.json())
+			.then(({ id }) => {
+				this.fingerId = id;
+				this.setFingerCreated();
+			});
+	},
+
 	submit(event) {
 		event.preventDefault();
+
+		if (!this.fingerCreated || !this.fingerSaved) {
+			alert('Insira a impressao digital!!');
+			return 0;
+		}
 
 		try {
 			const data = Form.getValues();
@@ -108,6 +156,20 @@ const Request = {
 			},
 			body: JSON.stringify(data),
 			method: 'POST'
+		};
+
+		const response = await fetch(url, params);
+		return response;
+	},
+
+	async getData(route) {
+		const url = `http://localhost:3333${route}`;
+		const params = {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			method: 'GET',
+			redirect: 'follow'
 		};
 
 		const response = await fetch(url, params);

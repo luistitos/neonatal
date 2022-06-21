@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('last_finger')
 class Lastfinger {
@@ -13,6 +13,9 @@ class Lastfinger {
 
 	@Column()
 	type: string;
+
+	@UpdateDateColumn()
+	updated_at: Date;
 }
 
 export { Lastfinger };

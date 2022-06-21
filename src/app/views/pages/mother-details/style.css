@@ -208,3 +208,7 @@ button.cancel {
 button.cancel:hover {
 	opacity: 1;
 }
+
+fieldset section > button {
+	width: 90%;
+}
