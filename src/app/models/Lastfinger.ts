@@ -14,8 +14,8 @@ class Lastfinger {
 	@Column()
 	type: string;
 
-	@UpdateDateColumn()
-	updated_at: Date;
+	@Column()
+	date: Date;
 }
 
 export { Lastfinger };

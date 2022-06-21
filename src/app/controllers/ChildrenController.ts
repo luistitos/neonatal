@@ -25,14 +25,17 @@ class ChildrenController {
 			fatherName,
 			home,
 			phone,
+			motherFingerId,
 			motherId,
 			birthday,
 			birthtime,
 			fingerId
 		} = request.body;
 
+		console.log(request.body);
+
 		const register = await this.usersRepository.findById(request.userId);
-		const mother = await this.mothersRepository.findById(motherId);
+		const mother = await this.mothersRepository.findById(motherFingerId);
 		const finger = await this.fingerRepository.getById(fingerId);
 
 		await this.childrenRepository.create({

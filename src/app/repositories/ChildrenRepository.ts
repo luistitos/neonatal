@@ -71,7 +71,10 @@ class ChildrenRepository {
 	async findByFinger(fingerId: number): Promise<Children> {
 		const finger = new Fingerprint();
 		finger.id = fingerId;
-		const child = await this.repository.findOne({ finger });
+		const child = await this.repository.findOne(
+			{ finger },
+			{ relations: ['mother'] }
+		);
 
 		return child;
 	}

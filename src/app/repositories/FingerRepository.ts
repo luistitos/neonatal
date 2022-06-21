@@ -1,3 +1,4 @@
+import { subMinutes } from 'date-fns';
 import { getConnection, getRepository, Repository } from 'typeorm';
 import { fingerRoutes } from '../../routes/finger.routes';
 import { Fingerprint } from '../models/Fingerprint';
@@ -36,6 +37,19 @@ class FingerRepository {
 		return finger;
 	}
 
+	async setNullDate(): Promise<void> {
+		await this.lastfingerRepository.save([
+			{
+				id: 1,
+				date: subMinutes(new Date(), 20)
+			},
+			{
+				id: 2,
+				date: subMinutes(new Date(), 20)
+			}
+		]);
+	}
+
 	async setSaved(id: number): Promise<void> {
 		await this.repository.save({
 			id,
@@ -51,6 +65,7 @@ class FingerRepository {
 	async setLastSearch(id: number): Promise<void> {
 		const lastfinger = await this.lastfingerRepository.findOne({ last: true });
 		lastfinger.fingerId = id;
+		lastfinger.date = new Date();
 		await this.lastfingerRepository.save(lastfinger);
 	}
 	async setLastSearchType(type: string): Promise<void> {

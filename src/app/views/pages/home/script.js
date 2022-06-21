@@ -8,78 +8,23 @@ const Modal = {
 	}
 };
 
-const ChildrenStorage = {
-	getUserData() {
-		const user = JSON.parse(localStorage.getItem('neonatal:user'));
-		return user;
-	}
-};
-
-const ChildrenApp = {
-	motherId: '',
-	init() {
-		const userData = ChildrenStorage.getUserData();
-		if (!userData) {
-			location.assign('http://localhost:3333/sessions');
-		}
-	},
-	setMotherId(id) {
-		this.motherId = id;
-	},
-	getMotherId(id) {
-		return this.motherId;
-	}
-};
-
 const Form = {
-	name: document.querySelector('input#name'),
-	sex: document.querySelector('select#sex'),
-	fatherName: document.querySelector('input#father-name'),
-	hospitalName: document.querySelector('input#hospitalName'),
-	hospitalNumber: document.querySelector('input#hospitalNumber'),
-	home: document.querySelector('input#home'),
-	phone: document.querySelector('input#phone'),
-	birthday: document.querySelector('input#birthday'),
-	birthtime: document.querySelector('input#birthtime'),
 	fingerId: null,
 	fingerCreated: false,
 	fingerSaved: false,
 	MotherFingerId: null,
 	MotherFingerCreated: false,
 	MotherFingerSaved: false,
-	motherId: null,
 
 	getValues() {
 		return {
-			name: Form.name.value,
-			sex: Form.sex.value,
-			fatherName: Form.fatherName.value,
-			hospitalName: Form.hospitalName.value,
-			hospitalNumber: Form.hospitalNumber.value,
-			home: Form.home.value,
-			phone: Form.phone.value,
-			birthday: Form.birthday.value,
-			birthtime: Form.birthtime.value,
-			fingerId: this.fingerId,
-			MotherFingerId: this.MotherFingerId,
-			motherId: this.motherId
+			childFinger: this.fingerId,
+			motherFinger: this.MotherFingerId
 		};
 	},
 
-	clearFields() {
-		Form.name.value = '';
-		Form.sex.value = '';
-		Form.fatherName.value = '';
-		Form.hospitalName.value = '';
-		Form.hospitalNumber.value = '';
-		Form.home.value = '';
-		Form.phone.value = '';
-		Form.birthday.value = '';
-		Form.birthtime.value = '';
-	},
-
 	setFingerCreated() {
-		this.fingerCreated = true;
+		this.FingerCreated = true;
 		// Alterar o icon
 		const element = document.getElementById('finger-icon');
 		element.innerText = 'sync_problem';
@@ -87,34 +32,33 @@ const Form = {
 		this.verifyFingerSaved();
 	},
 
-	setFingerSaved() {
+	setFingerSaved(id) {
 		this.fingerSaved = true;
 		//alterar icon
 		const element = document.getElementById('finger-icon');
 		element.innerText = 'check_circle';
+		this.fingerId = id;
+		console.log(id);
 	},
 
 	verifyFingerSaved() {
-		const response = Request.getData(`/fingers/${this.fingerId}`)
+		const response = Request.getData(`/fingers/search/last`)
 			.then((response) => response.json())
-			.then(({ id, saved }) => {
-				if (!saved) {
+			.then(({ motherFinger, childFinger }) => {
+				if (!childFinger) {
 					setTimeout(() => {
 						this.verifyFingerSaved();
 					}, 3000);
 				} else {
-					this.setFingerSaved();
+					this.setFingerSaved(childFinger);
 				}
 			});
 	},
 
 	createFinger() {
-		Request.postData({}, '/fingers/child', '')
-			.then((response) => response.json())
-			.then(({ id }) => {
-				this.fingerId = id;
-				this.setFingerCreated();
-			});
+		Request.postData({}, '/fingers/search/type/child', '').then((response) => {
+			this.setFingerCreated();
+		});
 	},
 
 	setMotherFingerSaved(id) {
@@ -157,39 +101,19 @@ const Form = {
 
 	submit(event) {
 		event.preventDefault();
-		console.log(this.MotherFingerId);
-		Request.getData(`/mothers/fingers/${this.MotherFingerId}`)
-			.then((data) => {
-				return data.json();
-			})
-			.then(({ id }) => {
-				this.motherId = id;
-			});
-
-		if (!this.fingerCreated || !this.fingerSaved) {
-			alert('Insira a impressao digital!!');
-			return 0;
-		}
 
 		try {
-			const data = Form.getValues();
+			const { motherFinger, childFinger } = Form.getValues();
 			const { token } = ChildrenStorage.getUserData();
-
-			const requestData = {
-				...data
-			};
-
-			Request.postData(requestData, '/children', token)
-				.then(() => {
-					alert('Dados cadastrados com sucesso');
-				})
-				.catch((error) => {
-					console.log(error);
-					alert('Falha ao cadastrar os dados');
+			Request.getData(`/fingers/verify/match/${motherFinger}/${childFinger}`)
+				.then((response) => response.json())
+				.then(({ match }) => {
+					if (match) {
+						alert('As impressões digitais da mae e do bebe correspondem!');
+					} else {
+						alert('As impressões digitais da mae e do bebe não correspondem!');
+					}
 				});
-
-			Form.clearFields();
-			Modal.close();
 		} catch (error) {
 			alert(error.message);
 		}
@@ -224,5 +148,12 @@ const Request = {
 
 		const response = await fetch(url, params);
 		return response;
+	}
+};
+
+const ChildrenStorage = {
+	getUserData() {
+		const user = JSON.parse(localStorage.getItem('neonatal:user'));
+		return user;
 	}
 };

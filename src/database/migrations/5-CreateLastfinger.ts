@@ -27,9 +27,9 @@ export class CreateLastfinger1655651101035 implements MigrationInterface {
 						default: false
 					},
 					{
-						name: 'updated_at',
+						name: 'date',
 						type: 'timestamp',
-						default: 'now()'
+						isNullable: true
 					}
 				]
 			})

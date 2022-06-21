@@ -51,13 +51,18 @@ class FingerController {
 	async getSearch(request: Request, response: Response) {
 		const fingers = await this.fingerRepository.getSearch();
 		const parsedFingers = {
-			motherFinger: this.verifyInterval(fingers[0].updated_at)
-				? fingers[0].fingerId
-				: null,
-			childFinger: this.verifyInterval(fingers[1].updated_at)
-				? fingers[1].fingerId
-				: null
+			motherFinger:
+				this.verifyInterval(fingers[0].date) && fingers[0].last
+					? fingers[0].fingerId
+					: null,
+			childFinger:
+				this.verifyInterval(fingers[1].date) && fingers[1].last
+					? fingers[1].fingerId
+					: null
 		};
+
+		await this.fingerRepository.setNullDate();
+		// console.log(parsedFingers);
 		return response.json(parsedFingers);
 	}
 
@@ -69,9 +74,17 @@ class FingerController {
 	}
 
 	async verifyMatch(request: Request, response: Response) {
-		const { motherFinger, childFinger } = request.body;
-		const mother = await this.motherRepository.findByFinger(motherFinger);
-		const child = await this.childrenRepository.findByFinger(childFinger);
+		const { motherFinger, childFinger } = request.params;
+		if (!motherFinger || !childFinger) {
+			return response.send();
+		}
+
+		const mother = await this.motherRepository.findByFinger(
+			Number(motherFinger)
+		);
+		const child = await this.childrenRepository.findByFinger(
+			Number(childFinger)
+		);
 		if (child.mother.id != mother.id) {
 			return response.status(400).json({ match: false });
 		}

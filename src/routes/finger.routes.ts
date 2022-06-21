@@ -27,7 +27,7 @@ routes.get('/search/last', (request, response) => {
 	FingerController().getSearch(request, response);
 });
 
-routes.get('/match', (request, response) => {
+routes.get('/verify/match/:motherFinger/:childFinger', (request, response) => {
 	FingerController().verifyMatch(request, response);
 });
 

@@ -35,8 +35,60 @@
 					<span><%= countChildren %> </span>
 				</section>
 			</a>
+
+			<a href="#" onclick="Modal.open()" class="card-verify">
+				<section class="card-description">
+					<h2>Verificar dados da mãe e do Bebê</h2>
+					<img src="/views/assets/baby.svg" alt="icon" />
+				</section>
+
+				<section class="card-number"></section>
+			</a>
 		</main>
 
+		<div class="modal-overlay">
+			<div class="modal">
+				<section id="form">
+					<h2>Nova criança</h2>
+					<form action="" onsubmit="Form.submit(event)">
+						<fieldset class="finger-button">
+							<section>
+								<button type="button" onclick="Form.createMotherFinger()">
+									Buscar Fingerprint da mãe
+								</button>
+
+								<span class="material-symbols-outlined" id="mother-finger-icon">
+									cancel
+								</span>
+							</section>
+							<br />
+
+							<section>
+								<button type="button" onclick="Form.createFinger()">
+									Buscar Fingerprint do Bebê
+								</button>
+
+								<span class="material-symbols-outlined" id="finger-icon">
+									cancel
+								</span>
+							</section>
+						</fieldset>
+
+						<p id="result"></p>
+
+						<div class="input-group actions">
+							<button type="button" class="cancel" onclick="Modal.close()">
+								Cancelar
+							</button>
+							<button type="submit">Salvar</button>
+						</div>
+					</form>
+				</section>
+			</div>
+		</div>
+
 		<%- include('../../partials/footer') %>
+
+		<script src="/views/pages/home/script.js"></script>
 	</body>
 </html>
