@@ -87,6 +87,7 @@ class MotherController {
 	async showById(request: Request, response: Response): Promise<void> {
 		const { id } = request.params;
 		const mother = await this.mothersRepository.findById(Number(id));
+		console.log(mother);
 		return response.render('pages/mother-details', {
 			mother,
 			title: 'Detalhes da mãe'

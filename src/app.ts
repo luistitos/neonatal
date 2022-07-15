@@ -5,6 +5,7 @@ import 'express-async-errors';
 import cors from 'cors';
 
 import './database';
+import './firebase';
 import routes from './routes';
 
 const app = express();

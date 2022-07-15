@@ -3,6 +3,8 @@ import { ChildrenRepository } from '../repositories/ChildrenRepository';
 import { FingerRepository } from '../repositories/FingerRepository';
 import { MothersRepository } from '../repositories/MothersRepository';
 import { isWithinInterval, subMinutes } from 'date-fns';
+import { firebasedb } from '../../firebase';
+import { ref, set } from 'firebase/database';
 
 class FingerController {
 	fingerRepository: FingerRepository;
@@ -20,6 +22,13 @@ class FingerController {
 		const id = count + 1;
 
 		await this.fingerRepository.create({ id, type });
+
+		set(ref(firebasedb, 'fingers/write'), {
+			id,
+			type,
+			saved: false
+		});
+
 		return response.json({ id });
 	}
 

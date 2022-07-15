@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import { Children } from '../models/Children';
+import { Mother } from '../models/Mother';
 import { ChildrenRepository } from '../repositories/ChildrenRepository';
 import { FingerRepository } from '../repositories/FingerRepository';
 import { MothersRepository } from '../repositories/MothersRepository';
@@ -32,10 +34,15 @@ class ChildrenController {
 			fingerId
 		} = request.body;
 
-		console.log(request.body);
-
 		const register = await this.usersRepository.findById(request.userId);
-		const mother = await this.mothersRepository.findById(motherFingerId);
+
+		var mother: Mother;
+		if (motherFingerId) {
+			mother = await this.mothersRepository.findById(motherFingerId);
+		} else {
+			mother = await this.mothersRepository.findById(motherId);
+		}
+
 		const finger = await this.fingerRepository.getById(fingerId);
 
 		await this.childrenRepository.create({
