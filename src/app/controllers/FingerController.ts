@@ -4,7 +4,7 @@ import { FingerRepository } from '../repositories/FingerRepository';
 import { MothersRepository } from '../repositories/MothersRepository';
 import { isWithinInterval, subMinutes } from 'date-fns';
 import { firebasedb } from '../../firebase';
-import { ref, set } from 'firebase/database';
+import { ref, set, get, onValue, off } from 'firebase/database';
 
 class FingerController {
 	fingerRepository: FingerRepository;
@@ -29,7 +29,24 @@ class FingerController {
 			saved: false
 		});
 
+		this.verifyFingerSaved(id);
+
 		return response.json({ id });
+	}
+
+	private verifyFingerSaved(fingerId: number) {
+		const writeFingerRef = ref(firebasedb, 'fingers/write');
+		onValue(writeFingerRef, async (snapshot) => {
+			const { id, saved } = snapshot.val();
+			if (id === fingerId) {
+				if (saved) {
+					await this.fingerRepository.setSaved(id);
+					off(writeFingerRef);
+				}
+			} else {
+				off(writeFingerRef);
+			}
+		});
 	}
 
 	async saveLast(request: Request, response: Response) {
@@ -51,10 +68,36 @@ class FingerController {
 		await this.fingerRepository.setLastSearch(Number(id));
 		return response.status(204).send();
 	}
+
 	async setLastSearchType(request: Request, response: Response) {
 		const { type } = request.params;
 		await this.fingerRepository.setLastSearchType(type);
+
+		set(ref(firebasedb, 'fingers/read'), {
+			id: null,
+			type,
+			read: false
+		});
+
+		this.verifyFingerRead(type);
+
 		return response.status(204).json({});
+	}
+
+	private verifyFingerRead(fingerType: string) {
+		const readFingerRef = ref(firebasedb, 'fingers/read');
+		onValue(readFingerRef, async (snapshot) => {
+			const { id, type, read } = snapshot.val();
+
+			if (type === fingerType) {
+				if (id && read) {
+					await this.fingerRepository.setLastSearch(id);
+					off(readFingerRef);
+				}
+			} else {
+				off(readFingerRef);
+			}
+		});
 	}
 
 	async getSearch(request: Request, response: Response) {
